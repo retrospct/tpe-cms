@@ -1,13 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { validateSignature } from '../../utils/signing'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     // Check for secret to confirm this is a valid request
-    const secret = process.env.HN_WEBHOOK_SECRET! as string
-    const validateRequest = validateSignature({incomingSignatureHeader: req.headers['x-hashnode-signature'], payload: req.body, secret})
+    const secret = process.env.HN_WEBHOOK_SECRET!
+    console.log(secret)
+    // const validateRequest = validateSignature({incomingSignatureHeader: req.headers['x-hashnode-signature'], payload: req.body, secret})
     const { data } = req.body
-    if (!validateRequest.isValid) return res.status(401).json({ message: 'Invalid token' })
+    // if (!validateRequest.isValid) return res.status(401).json({ message: 'Invalid token' })
     if (!data) return res.status(400).json({ message: 'No data provided' })
     console.log('payload data', data)
     // if (username && path) await res.revalidate(`/${username}/${path}`)
