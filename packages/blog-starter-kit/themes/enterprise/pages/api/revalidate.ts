@@ -4,8 +4,8 @@ import { validateSignature } from '../../utils/signing'
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     // Check for secret to confirm this is a valid request
-    const secret = process.env.HN_WEBHOOK_SECRET
-    const validateRequest = validateSignature({incomingSignatureHeader: req.headers['x-hashnode-signature'], payload: req.body, secret: secret ? secret as string : ''})
+    const secret = process.env.HN_WEBHOOK_SECRET || '12345'
+    const validateRequest = validateSignature({incomingSignatureHeader: req.headers['x-hashnode-signature'], payload: req.body, secret})
     const { data } = req.body
     if (!validateRequest.isValid) return res.status(401).json({ message: 'Invalid token' })
     if (!data) return res.status(400).json({ message: 'No data provided' })
