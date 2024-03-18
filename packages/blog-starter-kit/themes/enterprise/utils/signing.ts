@@ -67,7 +67,7 @@ export type ValidateSignatureResult = { isValid: true } | { isValid: false; reas
  * Checks the signature validity and whether the timestamp is within the validForSeconds window.
  */
 export function validateSignature(options: ValidateSignatureOptions): ValidateSignatureResult {
-	const { incomingSignatureHeader, payload, secret, validForSeconds = 30 } = options;
+	const { incomingSignatureHeader, payload, secret = process.env.HN_WEBHOOK_SECRET!, validForSeconds = 30 } = options;
 
 	if (!incomingSignatureHeader) {
 		return { isValid: false, reason: 'Missing signature' };
